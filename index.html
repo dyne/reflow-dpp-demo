@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+
+<body>
+    <script type="module">
+        import { zencode_exec } from "https://jspm.dev/zenroom";
+
+      window.verify = (keys, data) => {
+        const contract = `Given nothing
+then print data`;
+        zencode_exec(contract, {data, keys}).then(({result}) => {
+          const rel = document.getElementById('verification')
+          rel.innerHTML = result
+        })
+      }
+    </script>
+    <div id="app"></div>
+    <pre id="apiroomResult"></pre>
+    <h2>Verification</h2>
+    <pre id="verification" readonly></pre>
+
+
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@rjsf/core/dist/react-jsonschema-form.js" crossorigin></script>
+    <script>
+        'use strict';
+
+        const Form = JSONSchemaForm.default;
+        const schema = `{
+  "title": "Create a DPP",
+  "description": "Create a Digital Product Passport for Reflow ",
+  "type": "object",
+  "properties": {
+    "myDataToPOST": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "UniqueID",
+          "default": "01FSMSBAJ3N6NJGA9XBSGTNRT6"
+        },
+        "recurseLimit": {
+          "type": "number",
+          "title": "Level of recursion for the query",
+          "default": 10
+        },
+        "unwind": {
+          "type": "boolean",
+          "title": "Unwind true is using it with restroom",
+          "default": true
+        }
+      }
+    }
+  }
+}`;
+
+        const log = (type) => console.log.bind(console, type);
+        const e = React.createElement;
+
+        ReactDOM.render(e(
+            Form, {
+                schema: JSON.parse(schema),
+                onChange: () => {
+                    log("changed")
+                },
+                onSubmit: (f) => {
+                    fetch('https://apiroom.net/api/dyneorg/create-dpp-demo', {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            method: "POST",
+                            body: JSON.stringify({
+                                data: f.formData
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(json => {
+                            document.getElementById("apiroomResult").innerHTML = JSON.stringify(json,
+                                null, 2);
+                            return json
+                        }).then((json) => {
+                            verify(JSON.stringify(json), JSON.stringify(f.formData));
+                        })
+                },
+                onError: () => {
+                    log("errors")
+                }
+            }), document.getElementById("app"));
+    </script>
+</body>
+
+</html>
