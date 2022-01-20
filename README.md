@@ -1,8 +1,10 @@
 # Reflow-dpp-demo
 
 Here you have 2 APIs
-* the API */create-dpp-demo* produces a Digital Product Passport from Reflow OS object, showcased at https://dyne.github.io/reflow-dpp-demo 
+* the API */create-dpp-demo* queries ReflowOS and produces a Digital Product Passport for and object, showcased at https://dyne.github.io/reflow-dpp-demo 
 * the API */reflow-print-data* queries ReflowOS for an id and returns an object
+
+The APIs in ReflowOS are documented here: https://github.com/dyne/bonfire_api_json 
 
 # Intro
 
