@@ -22,6 +22,6 @@ Download reflowDPP-APIs.sh, run it and follow the instructions
 }
 ```
 
-# the APIs
+# The APIs
 
-You can change the *id* and *recurseLimit* manually, the *unwind* must be on **true**
+You can change the `id` and `recurseLimit` manually, but `unwind` must be kept `true`.
